@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:tizen="http://tizen.org/ns/widgets" id="http://yourdomain/EasyKitchen" version="1.0.0" viewmodes="maximized">
+    <access origin="*" subdomains="true"/>
+    <tizen:application id="6RD15o40A5.EasyKitchen" package="6RD15o40A5" required_version="2.3"/>
+    <content src="login.html"/>
+    <feature name="http://tizen.org/feature/screen.size.all"/>
+    <icon src="images/iconEasykitchen.png"/>
+    <name>EasyKitchen</name>
+    <tizen:privilege name="http://developer.samsung.com/privilege/network.public"/>
+    <tizen:profile name="tv"/>
+</widget>

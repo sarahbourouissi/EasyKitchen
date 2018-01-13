@@ -1,0 +1,64 @@
+#menu ul li {
+    list-style-type: none;
+  
+    margin-right: 50px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+}
+
+#menu {
+    float: right;
+    margin-top: 0px;
+    margin-right: 130px;
+        padding-top: 0px;
+        
+    
+}
+* {
+    font-family: Verdana, Lucida Sans, Arial, Helvetica, sans-serif;
+}
+
+body {
+    margin: 0px auto;
+    background-color:#222;
+    background-image: url(../images/recettebackground.jpg);
+    background-size: 2000px 1200px ;
+  
+    background-repeat: no-repeat; 
+   
+}
+
+.contents {
+	display: flex;
+	display: -webkit-flex;
+	box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	height:320px;
+	
+}
+
+.flotte {
+float:left;
+     
+}
+.nn{
+	border-style: dashed;
+	 border-radius: 12px;
+	margin-bottom: 20px;
+	border-color: grey;
+	
+	margin-left: 500px;
+	margin-right: 500px;
+	width:40%;
+	clear: both;
+	line-height:150px;
+	font-family: Jazz LET, fantasy;
+	font-style: italic;
+	 font-size: 80px; 
+    text-shadow: #2a8d7b -1px -1px;
+	  
+	    background-color: rgba(255, 255, 255, 0.5);
+	 
+	    
+	
+}

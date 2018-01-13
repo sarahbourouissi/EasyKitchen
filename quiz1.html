@@ -1,0 +1,530 @@
+﻿<html>
+	<head>
+	 <title>Easy Kitchen</title>
+	 
+
+    <link rel="stylesheet" type="text/css" href="css/style.css"/>
+     <link rel="stylesheet" type="text/css" href="css/quiz1.css"/>
+      <script type="text/javascript" src="./js/jquery-1.9.1.js"></script>
+     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+      <script type="text/javascript" src="js/jquery.min.1.7.js"></script>
+<script type="text/javascript" src="js/modernizr.2.5.3.min.js"></script>
+       <script type="text/javascript" src="./js/TVKeyValue.js"> </script>
+       <script type='text/javascript' src='loadImg.js'></script>
+       <script src="js/oXHR.js"></script>
+		<link rel="stylesheet" href="FlipClock-master/compiled/flipclock.css">
+
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+		<script src="FlipClock-master/compiled/flipclock.js"></script>	
+		<script type="text/javascript">
+		// pointeur sur la position de l'article courant 
+        var index = 1;
+        // initialisation 
+        var quiz =[];
+       
+        
+
+        function executerRequete(callback) {
+            // parsing Json Quiz
+            // qu'une seule fois
+            if (quiz.length === 0) {
+                // on récupère un objet XMLHttpRequest
+                var xhr = getXMLHttpRequest();
+                // on réagit à l'événement onreadystatechange
+                xhr.onreadystatechange = function() {
+                    // test du statut de retour de la requête AJAX
+                    if (xhr.readyState == 4 && (xhr.status == 200 || xhr.status == 0)) {
+                        // on désérialise le catalogue et on le sauvegarde dans une variable
+                        quiz = JSON.parse(xhr.responseText);
+                       
+                       
+                        // on lance la fonction de callback avec le catalogue récupéré
+                        callback();
+                    }
+                }
+                // la requête AJAX : lecture de data.json
+               
+                xhr.open("GET", "http://192.168.1.2/easykitchen/quiz.php", true);
+                xhr.send();
+                
+            } else {
+                // on lance la fonction de callback avec le catalogue déjà récupéré précédemment
+                callback();
+            }
+        }
+
+
+//**************
+
+//***
+        
+
+
+		
+        function getResult() {
+           var j = 0;
+           var k=1;
+           var result = 0;
+           for (j; j < 7; j++) {
+        	   console.log("vvvvr"+j ); 
+        	   var   rates = document.getElementsByName('question' + j);
+
+        	   console.log("answer"+j ); 
+          
+               var rate_value;
+               console.log( rates.length );
+               for (var i = 0; i < rates.length; i++) {
+                   if (rates[i].checked) {
+                       rate_value = rates[i].value;
+
+                	  console.log("answer"+j+"1" ); 
+                      if (rate_value == document.getElementById("answer"+j+"1").value)
+                       {
+
+                       
+                           result=result+3;
+                       }
+                   }
+
+              
+           }
+               
+
+           }
+           var element = document.getElementById("res");
+           element.innerHTML = "You have " + result +"/ 18" ;
+           $.post(
+                   'http://192.168.1.2/easykitchen/note.php',
+                   {
+                       resultat :  result ,
+                       id_user : sessionStorage.getItem("id_user")
+                   });
+           console.log(result ); 
+           
+       }
+       
+  
+    
+    function countDown(secs, elem) {
+        var element = document.getElementById(elem);
+        element.innerHTML = "You have " + secs + " seconds left !";
+        if (secs < 1) {
+            clearTimeout(timer);
+            secs = 1;
+            getResult();
+        }
+        secs--;
+        ﻿
+                var timer = setTimeout('countDown(' + secs + ',"' + elem + '")', 1000);
+    }
+
+
+    
+       </script>
+       <script type="text/javascript">
+       var current_rep=0;
+       var current_it= -9;
+       var total_item=5;
+       var current_page=1;
+       var total_page=8;
+       var a=11;
+       function tester(){
+   		console.log("TESTTTTTTT");
+   	};
+    document.addEventListener('tizenhwkey', function(e) {
+        if(e.keyName == "back")
+	try {
+		parent.location="quizs.html";
+	} catch (ignore) {
+	}
+    });
+
+   	function navigation(direction){
+   	   	if(current_it !=1){}
+   	   	$("#blr"+a).removeClass("checked");
+   	 if(direction == "UP"){
+			if (current_rep<=3 && current_rep > 0){
+   	   	 current_rep--;
+			}
+			else if( current_rep>10 )
+				current_rep--;
+			else if (current_rep==10)
+				current_rep=3;
+			
+				
+   	   	 }else if(direction == "DOWN"){
+   	   	if (current_rep<3)
+   	   	 current_rep++;
+   	 else  if(current_rep==3 )
+	   	   	  current_rep=10;
+   	   	else if(current_rep>3 && current_rep<13)
+   	   	   current_rep++;
+   	   	   
+   	   	   
+		
+   	   	   
+   	   	   	
+   	   	 
+
+   	   	 }else
+   		if(direction == "LEFT"){
+   	   		if(current_page<8){
+   			console.log("left");
+   			if(current_page == 7){
+   				
+   				current_page = total_page;
+   				current_it=current_it+20;
+   			$('.flipbook').turn('page',current_page);}
+   			else{
+   				current_rep=0;
+   	   		
+			current_it=current_it+20;
+   	   			
+   				current_page=current_page+2;
+   				console.log(current_it+current_rep+"ffff");
+   			$('.flipbook').turn('page',current_page);
+   			}
+   			}
+   			
+   		}else if(direction == "RIGHT"){
+   	   		if (current_page>1){
+   			if(current_page == 2)
+   	   			{
+   				current_page = 1;
+   				current_it=current_it-20;
+   			$('.flipbook').turn('page',current_page);}
+   			else{
+   				current_rep=0;
+   				current_it=current_it-20;
+   				current_page=current_page-2;
+   			$('.flipbook').turn('page',current_page);}
+   		}
+   		}
+   		
+   		console.log(current_it+"lll");
+   		a=current_it+current_rep;
+   		console.log(a+"lll");
+  	$("#blr"+a).addClass("checked");
+   	};
+
+
+   	//affectation des questions reponse innerhtml
+    function addquestion() {
+        // connaitre le nombre d'articles dans le catalogue
+        var longueur = quiz.length;
+        for(index; index<longueur+1;index++){
+        	 console.log("answer"+index);
+      for(var i = 1; i < 5; i++){
+  
+        // manipulation du DOM pour afficher les questions
+        document.getElementById("ques"+index).innerHTML=quiz[index-1].question;
+      if(i==1){ document.getElementById("blr"+index+""+i).src ="http://172.19.7.222/easykitchen/images/"+quiz[index-1].reponse;}
+      else if(i==2){document.getElementById("blr"+index+""+i).src ="http://172.19.7.222/easykitchen/images/"+quiz[index-1].choix1;}
+      else if (i==3){document.getElementById("blr"+index+""+i).src ="http://172.19.7.222/easykitchen/images/"+quiz[index-1].choix2;}
+      else if (i==4){document.getElementById("blr"+index+""+i).src = "http://172.19.7.222/easykitchen/images/"+quiz[index-1].choix3;}
+        
+        
+        console.log("answer"+index+""+i);
+      }
+    }
+   	}
+   	//call html
+    executerRequete(addquestion);
+          
+
+function loadApp() {
+
+	// Animate loader off screen
+	$(".se-pre-con").fadeOut("slow");;
+//navigation
+
+	 document.addEventListener('keydown', function(e) {
+	    	switch(e.keyCode){
+	    	case TvKeyCode.KEY_LEFT: //LEFT arrow 	
+	    		navigation("LEFT");
+
+	    		console.log("LEFT");
+	    		break;
+	    	case TvKeyCode.KEY_UP: //UP arrow
+	    		navigation("UP");
+	    		break;
+	    	case TvKeyCode.KEY_RIGHT : //RIGHT arrow 
+	    		navigation("RIGHT");
+
+	    		console.log("RIGHT");
+	    		break;
+	    	case TvKeyCode.KEY_DOWN: //DOWN arrow
+	    		navigation("DOWN");	
+	    		break;
+	    	case TvKeyCode.KEY_ENTER: //OK button
+	    		select_radio(a);
+	    		console.log("ENTER Button");
+	    		break;
+	    	default:
+	    		console.log("Key code : " + e.keyCode);
+	    		break;   		
+	    	}
+	    });
+	        
+	
+
+	
+
+
+
+
+
+	
+
+
+	var flipbook = $('.flipbook');
+//check radio
+var test=0;
+function select_radio(a){
+	
+	if(current_page==total_page && test==0 ){
+			getResult();
+			test=1; }
+	else{
+
+		 $('#answer'+a).prop('checked', true);
+	 $("#blr"+a).removeClass("checked");
+	
+		
+		 
+		  
+		 console.log("cheked"+a);
+
+		 }
+	
+	
+	  
+	
+}
+	/*  $('#blr'+a).on('click', function(a){
+         var $$ = $(this)
+         if( !$$.is('.checked')){
+        	 console.log("cheked");
+           
+             $('#answer'+a).prop('checked', true);
+         } else {
+            $$.removeClass('checked');
+            $('#answer'+a).prop('checked', false);
+        }
+     }) */
+
+     // Arrows
+
+/* 	$(document).keydown(function(e){
+
+		var previous = 37, next = 39;
+		switch (e.keyCode) {
+			case previous:
+
+				$('.flipbook').turn('previous');
+
+			break;
+			case next:
+				
+				$('.flipbook').turn('next');
+
+			break;
+		}
+
+	}); */ 
+	// Create the flipbook
+
+	$('.flipbook').turn({
+			// Width
+
+			width:922,
+			
+			// Height
+
+			height:600,
+
+			// Elevation
+
+			elevation: 50,
+			
+			// Enable gradients
+
+			gradients: true,
+			
+			// Auto center this flipbook
+
+			
+	
+
+
+			});
+
+		
+}
+
+
+
+
+
+// Load the HTML4 version if there's not CSS transform
+
+yepnope({
+test : Modernizr.csstransforms,
+	yep: ['js/turn.js'],
+	nope: ['js/turn.html4.min.js'],
+	both: ['css/basic.css'],
+	complete: loadApp
+});
+
+</script>	
+	</head>
+	<body>
+	<div class="se-pre-con"></div>
+	<div class="clock" style="margin:2em;"></div>
+	<div class="message"></div>
+	
+<aside id="chrono"  >
+	<script type="text/javascript">
+		var clock;
+		
+		$(document).ready(function() {
+
+			clock = $('.clock').FlipClock(900, {
+		        clockFace: 'MinuteCounter',
+		        countdown: true,
+		        callbacks: {
+		        	stop: function() {
+		        		getResult();
+		        		
+		        	}
+		        }
+		    });
+
+		});
+		
+	</script>
+	</aside>
+	   <div > <h1 id="res" class="result"> </h1>
+	 
+	  
+	   
+	   
+	   </div>
+	
+	    <form action=""> 
+              <div class="flipbook-viewport">
+          
+	<div class="container">
+		<div class="flipbook">
+			<div style="background-image:url(images/page_garde.jpg)"> </div>
+			<div style="background-image:url(images/12.jpg)">
+			
+			<h1> Question 1  </h1>
+            <h1 id="ques1"></h1>
+            <div  class="input-group-lg" style="margin-left: 50px">
+          
+         <img   width="100px" height="100px" title="blr" id="blr11" class="" /> 
+      <input  class="checkbox-inline" type="radio"  id="answer11" name="question1" value="true" /><br>
+             <img   width="100px" height="100px" title="blr" id="blr12" class="" />
+      <input type="radio" id="answer12"  name="question1" value="barney" /><br>
+             <img  width="100px" height="100px" title="blr" id="blr13" class="" />
+      <input type="radio" id="answer13"  name="question1" value="barney" /><br>
+             <img   width="100px" height="100px" title="blr" id="blr14" class="" />
+      <input type="radio"  id="answer14"  name="question1" value="barney" />
+           
+            
+			</div>
+           
+    
+			</div>
+			<div style="background-image:url(images/12.jpg)">
+			  <h1> Question 2  </h1>
+			 
+            <div  class="input-group-lg" style="margin-left: 50px">
+          <h1 id="ques2"></h1>
+         <img  width="100px" height="100px" title="blr" id="blr21" class="" /> 
+      <input  class="checkbox-inline" type="radio"  id="answer21" name="question2" value="true" /><br>
+             <img   width="100px" height="100px" title="blr" id="blr22" class="" />
+      <input type="radio" id="answer22"  name="question2" value="barney" /><br>
+             <img   width="100px" height="100px" title="blr" id="blr23" class="" />
+      <input type="radio" id="answer23"  name="question2" value="barney" /><br>
+             <img   width="100px" height="100px" title="blr" id="blr24" class="" />
+      <input type="radio"  id="answer24"  name="question2" value="barney" />
+           
+            
+			</div>
+			
+			</div>
+			<div style="background-image:url(images/12.jpg)">
+			 <h1> Question 3  </h1>
+			  <h1 id="ques3"></h1>
+            <div  class="input-group-lg" style="margin-left: 50px">
+           
+            <img   width="100px" height="100px" title="blr31" id="blr31" class="" /> 
+      <input  class="checkbox-inline" type="radio"  id="answer31"   name="question3" value="true" /><br>
+             <img   width="100px" height="100px" title="blr" id="blr32" class="" />
+      <input type="radio" id="answer32"   name="question3" value="barney" /><br>
+             <img   width="100px" height="100px" title="blr" id="blr33" class="" />
+      <input type="radio" id="answer33"  name="question3" value="barney" /><br>
+             <img   width="100px" height="100px" title="blr" id="blr34" class="" />
+      <input type="radio"  id="answer34"   name="question3" value="barney" />
+            </div>
+			</div>
+			<div style="background-image:url(images/12.jpg)">
+			 <h1> Question 4  </h1>
+			  <h1 id="ques4"></h1>
+            <div  class="input-group-lg" style="margin-left: 50px">
+          
+            <img   width="100px" height="100px" title="blr41" id="blr41" class="" /> 
+      <input  class="checkbox-inline" type="radio"  id="answer41"  name="question4" value="true" /><br>
+             <img   width="100px" height="100px" title="blr41" id="blr42" class="" />
+      <input type="radio" id="answer42"   name="question4" value="barney" /><br>
+             <img  width="100px" height="100px" title="blr" id="blr43" class="" />
+      <input type="radio" id="answer43"   name="question4" value="barney" /><br>
+             <img   width="100px" height="100px" title="blr" id="blr44" class="" />
+      <input type="radio"  id="answer44"   name="question4" value="barney" />
+            </div>
+			</div>
+			<div style="background-image:url(images/12.jpg)">
+			 <h1> Question 5  </h1>
+			  <h1 id="ques5"></h1>
+            <div  class="input-group-lg" style="margin-left: 50px">
+           
+            <img   width="100px" height="100px" title="blr" id="blr51" class="" /> 
+      <input  class="checkbox-inline" type="radio"  id="answer51"   name="question5" value="true" /><br>
+             <img   width="100px" height="100px" title="blr" id="blr52" class="" />
+      <input type="radio" id="answer52"   name="question5" value="barney" /><br>
+             <img   width="100px" height="100px" title="blr" id="blr53" class="" />
+      <input type="radio" id="answer53"   name="question5" value="barney" /><br>
+             <img   width="100px" height="100px" title="blr" id="blr54" class="" />
+      <input type="radio"  id="answer54"   name="question5" value="barney" />
+            </div></div>
+			<div style="background-image:url(images/12.jpg)">
+			 <h1> Question 6  </h1>
+			  <h1 id="ques6"></h1>
+            <div  class="input-group-lg" style="margin-left: 50px">
+          
+            <img src="images/1.png"  width="100px" height="100px" title="blr" id="blr61" class="" /> 
+      <input  class="checkbox-inline" type="radio"  id="answer61"  name="question6" value="true" /><br>
+             <img   width="100px" height="100px" title="blr" id="blr62" class="" />
+      <input type="radio" id="answer62"   name="question6" value="barney" /><br>
+             <img   width="100px" height="100px" title="blr" id="blr63" class="" />
+      <input type="radio" id="answer63"   name="question6" value="barney" /><br>
+             <img   width="100px" height="100px" title="blr" id="blr64" class="" />
+      <input type="radio"  id="answer64"   name="question6" value="barney" />
+            </div></div>
+			<div style="background-image:url(images/valider.jpg)">
+ </div>
+			
+		</div>
+	</div>
+	
+	</div>
+
+       
+	</form>
+	
+	
+	</body>
+</html>
